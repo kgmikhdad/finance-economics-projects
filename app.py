@@ -5,18 +5,18 @@ import yfinance as yf
 def get_data(stock):
     ticker = yf.Ticker(stock)
     
-    # Fundamental Indicators
+    # Fundamental Indicators with error handling for missing keys
     fundamentals = {
-        'Market Cap': ticker.info['marketCap'],
-        'Forward P/E': ticker.info['forwardPE'],
-        'Dividend Yield': ticker.info['dividendYield'],
-        'Price to Book (P/B)': ticker.info['priceToBook'],
-        'Earnings Per Share (EPS)': ticker.info['trailingEps'],
-        'Revenue': ticker.info['revenue'],
-        'Profit Margin': ticker.info['profitMargins'],
-        'Book Value': ticker.info['bookValue'],
-        'Beta': ticker.info['beta'],
-        '52 Week High': ticker.info['fiftyTwoWeekHigh']
+        'Market Cap': ticker.info.get('marketCap', 'N/A'),
+        'Forward P/E': ticker.info.get('forwardPE', 'N/A'),
+        'Dividend Yield': ticker.info.get('dividendYield', 'N/A'),
+        'Price to Book (P/B)': ticker.info.get('priceToBook', 'N/A'),
+        'Earnings Per Share (EPS)': ticker.info.get('trailingEps', 'N/A'),
+        'Revenue': ticker.info.get('revenue', 'N/A'),
+        'Profit Margin': ticker.info.get('profitMargins', 'N/A'),
+        'Book Value': ticker.info.get('bookValue', 'N/A'),
+        'Beta': ticker.info.get('beta', 'N/A'),
+        '52 Week High': ticker.info.get('fiftyTwoWeekHigh', 'N/A')
     }
     
     # Technical Indicators (using simple calculations)
