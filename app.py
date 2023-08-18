@@ -1,40 +1,50 @@
 import streamlit as st
 import yfinance as yf
-import pandas as pd
+import plotly.graph_objects as go
 
 def get_data(stock):
-    # ... [Keep the existing get_data function as is]
+    # ... [same as your code]
 
 def main():
-    st.title("Stock Fundamental and Technical Indicators Dashboard")
+    st.title("Stock Fundamental and Technical Indicators")
 
-    # Sidebar for user input
-    st.sidebar.header("Input Stock Ticker")
-    stock = st.sidebar.text_input("Enter stock ticker (e.g. AAPL):")
+    stock = st.text_input("Enter stock ticker (e.g. AAPL):")
 
     if stock:
         fundamentals, technicals = get_data(stock)
 
-        # Display stock name and logo
-        ticker = yf.Ticker(stock)
-        st.image(ticker.info['logo_url'], width=100)
-        st.write(f"## {ticker.info['longName']}")
+        # Using Bootstrap styling for cards
+        st.markdown("""
+        <style>
+            .card {
+                border: 1px solid #e1e4e8;
+                border-radius: 6px;
+                padding: 16px;
+                margin: 20px 0;
+            }
+        </style>
+        """, unsafe_allow_html=True)
 
-        # Display Fundamental Indicators
-        st.write("### Fundamental Indicators")
-        fundamentals_df = pd.DataFrame.from_dict(fundamentals, orient='index', columns=['Value'])
-        st.table(fundamentals_df)
+        # Displaying Fundamental Indicators in a card
+        st.markdown("<div class='card'>", unsafe_allow_html=True)
+        st.write("## Fundamental Indicators")
+        for key, value in fundamentals.items():
+            st.write(f"**{key}**: {value}")
+        st.markdown("</div>", unsafe_allow_html=True)
 
-        # Display Technical Indicators
-        st.write("### Technical Indicators")
-        technicals_df = pd.DataFrame.from_dict(technicals, orient='index', columns=['Value'])
-        st.table(technicals_df)
+        # Displaying Technical Indicators in a card
+        st.markdown("<div class='card'>", unsafe_allow_html=True)
+        st.write("## Technical Indicators")
+        for key, value in technicals.items():
+            st.write(f"**{key}**: {value}")
+        st.markdown("</div>", unsafe_allow_html=True)
 
-        # Display stock price chart
-        st.write("### Stock Price Chart")
-        hist = yf.Ticker(stock).history(period="1y")
-        st.line_chart(hist['Close'])
+        # Plotting some of the technical indicators
+        fig = go.Figure()
+        fig.add_trace(go.Scatter(y=[technicals['50 Day SMA'], technicals['200 Day SMA'], technicals['Current Price']],
+                                 x=['50 Day SMA', '200 Day SMA', 'Current Price'],
+                                 mode='lines+markers'))
+        st.plotly_chart(fig)
 
 if __name__ == "__main__":
     main()
- 
