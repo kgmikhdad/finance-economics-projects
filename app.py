@@ -45,8 +45,19 @@ def get_data(stock):
         return {}, {}
 
 def main():
-    st.title("Analyse a stock")
-    st.title("Stock Fundamental and Technical Indicators")
+    st.markdown(
+    """
+    <style>
+        .center-title {
+            font-size:24px;  # or adjust to your preferred size
+            font-weight: bold;
+            text-align: center;
+        }
+    </style>
+    <div class="center-title">Analyse a stock</div>
+    """, 
+    unsafe_allow_html=True
+)
     st.markdown(
     """
     <style>
