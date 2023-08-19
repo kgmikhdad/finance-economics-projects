@@ -62,11 +62,17 @@ def main():
     st.markdown(
     """
     <style>
-        .smaller-font {
-            font-size:18px;  # adjust the size as per your requirement
+        .georgia-font {
+            font-family: Georgia, serif;
+            font-size: 16px;
+            text-align: center;
             font-weight: bold;
-            font-family: Verdana, Geneva, sans-serif;
         }
+    </style>
+    <div class="georgia-font">Analyse a stock</div>
+    """, 
+    unsafe_allow_html=True)
+
     </style>
     <div class="smaller-font">Stock Fundamental and Technical Indicators</div>
     """, 
