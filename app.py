@@ -1,9 +1,3 @@
-import streamlit as st
-import yfinance as yf
-
-def get_data(stock):
-    # [ ... same as your code ... ]
-
 def main():
     st.markdown(
     """
