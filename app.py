@@ -50,7 +50,7 @@ def main():
     <style>
         .times-font {
             font-family: "Times New Roman", Times, serif;
-            font-size: 28px;
+            font-size: 30px;
             text-align: center;
             font-weight: bold;
         }
@@ -63,7 +63,7 @@ def main():
     """
     <style>
         .smaller-font {
-            font-size:24px;  # adjust the size as per your requirement
+            font-size:18px;  # adjust the size as per your requirement
             font-weight: bold;
         }
     </style>
