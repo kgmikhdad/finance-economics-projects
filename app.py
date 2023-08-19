@@ -54,19 +54,8 @@ def main():
 
         st.write("## Fundamental Indicators")
 
-        # Include the JavaScript for initializing dropdowns and other elements
-        st.markdown("""
-        <script>
-            // Assuming you've loaded the "tw-elements" library elsewhere,
-            // otherwise you need to link it here with a <script> or <link> tag.
-            
-            // This is a basic example using native details/summary HTML tags 
-            // to create dropdowns. Adjust based on your actual library's capabilities.
-        </script>
-        """, unsafe_allow_html=True)
-
         for key, value in fundamentals.items():
-            # Display each fundamental as a dropdown (for example)
+            # Display each fundamental as a dropdown using native HTML details/summary tags
             st.markdown(f"""
             <details>
                 <summary>{key}</summary>
