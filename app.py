@@ -56,8 +56,7 @@ def main():
     </style>
     <div class="center-title">Analyse a stock</div>
     """, 
-    unsafe_allow_html=True
-)
+    unsafe_allow_html=True)
     st.markdown(
     """
     <style>
