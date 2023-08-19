@@ -65,6 +65,7 @@ def main():
         .smaller-font {
             font-size:18px;  # adjust the size as per your requirement
             font-weight: bold;
+            font-family: Verdana, Geneva, sans-serif;
         }
     </style>
     <div class="smaller-font">Stock Fundamental and Technical Indicators</div>
