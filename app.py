@@ -48,15 +48,17 @@ def main():
     st.markdown(
     """
     <style>
-        .center-title {
-            font-size:24px;  # or adjust to your preferred size
-            font-weight: bold;
+        .times-font {
+            font-family: "Times New Roman", Times, serif;
+            font-size: 28px;
             text-align: center;
+            font-weight: bold;
         }
     </style>
-    <div class="center-title">Analyse a stock</div>
+    <div class="times-font">Analyse a stock</div>
     """, 
     unsafe_allow_html=True)
+
     st.markdown(
     """
     <style>
