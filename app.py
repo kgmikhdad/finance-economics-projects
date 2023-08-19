@@ -45,6 +45,7 @@ def get_data(stock):
         return {}, {}
 
 def main():
+    st.title("Analyse a stock")
     st.title("Stock Fundamental and Technical Indicators")
 
     stock = st.text_input("Enter stock ticker (e.g. AAPL):")
