@@ -47,6 +47,18 @@ def get_data(stock):
 def main():
     st.title("Analyse a stock")
     st.title("Stock Fundamental and Technical Indicators")
+    st.markdown(
+    """
+    <style>
+        .smaller-font {
+            font-size:24px;  # adjust the size as per your requirement
+            font-weight: bold;
+        }
+    </style>
+    <div class="smaller-font">Stock Fundamental and Technical Indicators</div>
+    """, 
+    unsafe_allow_html=True
+)
 
     stock = st.text_input("Enter stock ticker (e.g. AAPL):")
 
