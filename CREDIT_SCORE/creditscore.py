@@ -12,6 +12,18 @@ def get_input(prompt, min_val, max_val):
         st.warning("Please enter a valid number.")
         return get_input(prompt, min_val, max_val)
 
+def get_credit_score_category(score):
+    if 800 <= score <= 850:
+        return "<div style='background-color: green; padding: 10px; border-radius: 5px;'>Exceptional</div>"
+    elif 740 <= score <= 799:
+        return "<div style='background-color: #ADFF2F; padding: 10px; border-radius: 5px;'>Very Good</div>"  # GreenYellow
+    elif 670 <= score <= 739:
+        return "<div style='background-color: yellow; padding: 10px; border-radius: 5px;'>Good</div>"
+    elif 580 <= score <= 669:
+        return "<div style='background-color: #FFD700; padding: 10px; border-radius: 5px;'>Fair</div>"  # Goldenrod
+    else:
+        return "<div style='background-color: red; padding: 10px; border-radius: 5px;'>Poor</div>"
+
 def calculate_credit_score():
     st.markdown("""
     <style>
@@ -49,6 +61,10 @@ def calculate_credit_score():
         score = max(300, min(900, score))
 
         st.markdown(f"<h2 style='text-align: center; font-family: Times New Roman, Times, serif;'>Your estimated Credit score is: {score}</h2>", unsafe_allow_html=True)
+        
+        # Get credit score category
+        category_html = get_credit_score_category(score)
+        st.markdown(category_html, unsafe_allow_html=True)
 
 if __name__ == "__main__":
     calculate_credit_score()
