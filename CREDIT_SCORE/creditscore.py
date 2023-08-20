@@ -111,8 +111,7 @@ def calculate_credit_score():
 
 
 
-st.markdown("<hr/>", unsafe_allow_html=True)  # This adds a horizontal line for separation
-st.markdown("<p style='text-align: center; font-family: Times New Roman, Times, serif;'>Made by Mikhdad</p>", unsafe_allow_html=True)
+
 
 
 
