@@ -1,4 +1,4 @@
-#This is a python code for calculating CIBIL Score.
+#This is a python code for calculating Credit Score.
 #This python script can be run using streamlit in the form of website.
 import streamlit as st
 
@@ -14,9 +14,9 @@ def get_input(prompt, min_val, max_val):
         st.warning("Please enter a valid number.")
         return get_input(prompt, min_val, max_val)
 
-def calculate_cibil_score():
-    st.title("CIBIL Score Calculator")
-    st.write("Enter the following details to calculate your CIBIL score:")
+def calculate_credit_score():
+    st.title("Credit Score Calculator")
+    st.write("Enter the following details to calculate your Credit score:")
 
     # Get user input with specified ranges
     payment_history = get_input("Percentage of timely payments (0-100): ", 0, 100)
@@ -36,7 +36,7 @@ def calculate_cibil_score():
     # Ensure score boundaries
     score = max(300, min(900, score * 10))
 
-    st.success(f"Your estimated CIBIL score is: {score}")
+    st.success(f"Your estimated Credit score is: {score}")
 
 if __name__ == "__main__":
-    calculate_cibil_score()
+    calculate_credit_score()
