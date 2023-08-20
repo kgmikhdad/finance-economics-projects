@@ -68,6 +68,8 @@ def calculate_credit_score():
         # ... [rest of your code]
 
     # Dropdown for credit score improvement tips
+    print()
+    print()
     if st.button("How to improve your credit score"):
         st.markdown("""
         <style>
