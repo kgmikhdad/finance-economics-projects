@@ -109,7 +109,10 @@ def calculate_credit_score():
         If you're overwhelmed with debt, consider seeking help from a credit counseling agency. They can provide strategies and solutions to improve your financial situation.
         """, unsafe_allow_html=True)
 
-            
+
+
+st.markdown("<hr/>", unsafe_allow_html=True)  # This adds a horizontal line for separation
+st.markdown("<p style='text-align: center; font-family: Times New Roman, Times, serif;'>Made by Mikhdad</p>", unsafe_allow_html=True)
 
 
 
