@@ -65,6 +65,48 @@ def calculate_credit_score():
         # Get credit score category
         category_html = get_credit_score_category(score)
         st.markdown(category_html, unsafe_allow_html=True)
+        # ... [rest of your code]
+
+    # Dropdown for credit score improvement tips
+    if st.button("How to improve your credit score"):
+        st.markdown("""
+        <style>
+            .improve-tips {
+                font-family: "Times New Roman", Times, serif;
+                margin-left: 10px;
+                margin-right: 10px;
+            }
+        </style>
+        """, unsafe_allow_html=True)
+    
+        st.markdown("<h3 class='improve-tips'>Tips to Improve Your Credit Score</h3>", unsafe_allow_html=True)
+    
+        st.markdown("""
+        **1. Pay Your Bills on Time:** 
+        Timely payment of your bills, especially credit card bills and loan EMIs, has a significant impact on your credit score. Late payments, defaults, and bankruptcies have a negative effect on your score.
+
+        **2. Reduce Outstanding Debt:** 
+        Try to keep your credit utilization ratio low. It's the ratio of your credit card balances to their credit limits. A lower ratio indicates good credit management.
+
+        **3. Don't Close Unused Credit Cards:** 
+        Keeping unused credit cards, as long as they're not costing you money in annual fees, helps increase your credit utilization ratio.
+
+        **4. Limit Hard Inquiries:** 
+        A hard inquiry happens when a financial institution checks your credit for lending purposes. Too many hard inquiries in a short time can negatively impact your score.
+
+        **5. Diversify Your Credit:** 
+        Having a mix of credit types, such as credit cards, retail accounts, installment loans, and mortgages, can positively affect your score.
+
+        **6. Check Your Credit Report Regularly:** 
+        Ensure there are no errors or discrepancies in your credit report. If you find any, get them corrected immediately.
+
+        **7. Avoid Taking on Too Much New Credit:** 
+        Opening several credit accounts in a short period can be risky and might indicate that you're financially overextended.
+
+        **8. Seek Professional Help:** 
+        If you're overwhelmed with debt, consider seeking help from a credit counseling agency. They can provide strategies and solutions to improve your financial situation.
+        """, unsafe_allow_html=True)
+
             
 
 
