@@ -13,7 +13,7 @@ def get_input(prompt, min_val, max_val):
         return get_input(prompt, min_val, max_val)
 
 def get_credit_score_category(score):
-    if 800 <= score <= 850:
+    if 800 <= score <= 900:
         return "<div style='background-color: green; padding: 10px; border-radius: 5px;'>Exceptional</div>"
     elif 740 <= score <= 799:
         return "<div style='background-color: #ADFF2F; padding: 10px; border-radius: 5px;'>Very Good</div>"  # GreenYellow
