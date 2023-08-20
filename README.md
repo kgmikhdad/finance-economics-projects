@@ -1,7 +1,4 @@
-Certainly! Here's a README file for your "Credit Score Calculator" project:
-
----
-
+**Project 1**
 # 🌟 Credit Score Calculator 🌟
 
 Welcome to the **Credit Score Calculator** repository! This project is a part of the `finance-economics-projects` collection.
