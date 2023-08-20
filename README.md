@@ -1,4 +1,4 @@
-**Project 1**
+## 🙌**Project 1**
 # 🌟 Credit Score Calculator 🌟
 
 Welcome to the **Credit Score Calculator** repository! This project is a part of the `finance-economics-projects` collection.
@@ -43,10 +43,3 @@ Feel free to raise issues if you find any bugs or have suggestions for improveme
 
 This project is licensed under the MIT License.
 
-## 🙌 Acknowledgments
-
-Thanks to all contributors and supporters! Special shoutout to those who use and find value in this tool.
-
----
-
-You can use this README as a starting point and customize it further based on your preferences and additional details you'd like to include. Emojis have been added to make it more visually appealing.
