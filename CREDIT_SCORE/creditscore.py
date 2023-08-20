@@ -14,15 +14,15 @@ def get_input(prompt, min_val, max_val):
 
 def get_credit_score_category(score):
     if 800 <= score <= 900:
-        return "<div style='background-color: green; padding: 10px; border-radius: 5px;'>Exceptional</div>"
+        return "<div style='background-color: green; padding: 10px; text-align: center; border-radius: 5px;'>Exceptional</div>"
     elif 740 <= score <= 799:
-        return "<div style='background-color: #ADFF2F; padding: 10px; border-radius: 5px;'>Very Good</div>"  # GreenYellow
+        return "<div style='background-color: #ADFF2F; padding: 10px; text-align: center; border-radius: 5px;'>Very Good</div>"  # GreenYellow
     elif 670 <= score <= 739:
-        return "<div style='background-color: yellow; padding: 10px; border-radius: 5px;'>Good</div>"
+        return "<div style='background-color: yellow; padding: 10px; text-align: center; border-radius: 5px;'>Good</div>"
     elif 580 <= score <= 669:
-        return "<div style='background-color: #FFD700; padding: 10px; border-radius: 5px;'>Fair</div>"  # Goldenrod
+        return "<div style='background-color: #FFD700; padding: 10px; text-align: center; border-radius: 5px;'>Fair</div>"  # Goldenrod
     else:
-        return "<div style='background-color: red; padding: 10px; border-radius: 5px;'>Poor</div>"
+        return "<div style='background-color: red; padding: 10px; text-align: center; border-radius: 5px;'>Poor</div>"
 
 def calculate_credit_score():
     st.markdown("""
