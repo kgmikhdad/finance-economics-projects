@@ -18,8 +18,9 @@ def calculate_credit_score():
         .reportview-container .main .block-container {
             font-family: "Times New Roman", Times, serif;
         }
-        h1, h2 {
+        h1, h2, h3, h4, h5, h6 {
             text-align: center;
+            font-family: "Times New Roman", Times, serif;
         }
     </style>
     """, unsafe_allow_html=True)
