@@ -39,14 +39,14 @@ def calculate_credit_score():
     if st.button('Enter'):
         # Calculate score
         score = 0
-        score += payment_history * 0.35
-        score += (100 - credit_utilization) * 0.30  # Lower utilization is better
-        score += (length_of_credit_history / 10) * 15  # Assuming 10+ years is best
-        score += types_of_credit * 2  # Assuming 5 types is best
-        score -= new_credit * 2  # Assuming 0 new credit is best
+        score += payment_history * 3.5
+        score += (100 - credit_utilization) * 3.0
+        score += (length_of_credit_history / 50) * 150
+        score += types_of_credit * 20
+        score -= new_credit * 20
 
         # Ensure score boundaries
-        score = max(300, min(900, score * 10))
+        score = max(300, min(900, score))
 
         st.markdown(f"<h2 style='text-align: center; font-family: Times New Roman, Times, serif;'>Your estimated Credit score is: {score}</h2>", unsafe_allow_html=True)
 
