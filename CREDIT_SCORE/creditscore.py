@@ -15,6 +15,17 @@ def get_input(prompt, min_val, max_val):
         return get_input(prompt, min_val, max_val)
 
 def calculate_credit_score():
+    st.markdown("""
+    <style>
+        .reportview-container .main .block-container {
+            font-family: "Times New Roman", Times, serif;
+        }
+        h1 {
+            text-align: center;
+        }
+    </style>
+    """, unsafe_allow_html=True)
+
     st.title("Credit Score Calculator")
     st.write("Enter the following details to calculate your Credit score:")
 
