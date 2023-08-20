@@ -7,21 +7,21 @@ def calculate_roi(interest_rate, amount, duration):
 
 # Streamlit app
 def main():
+    # Custom CSS for centering the title and setting the font style
     def custom_css():
-            st.markdown("""
-                <style>
-                    h1 {
-                        display: flex;
-                        justify-content: center;
-                        align-items: center;
-                        font-family: 'Times New Roman', Times, serif;
-                    }
-                </style>
-            """, unsafe_allow_html=True)
+        st.markdown("""
+            <style>
+                h1 {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    font-family: 'Times New Roman', Times, serif;
+                }
+            </style>
+        """, unsafe_allow_html=True)
 
-        custom_css()
-        st.title("ROI Calculator")
-
+    custom_css()
+    st.title("ROI Calculator")
 
     # User input
     interest_rate = st.slider("Interest Rate (%)", 0.0, 20.0, 5.0, 0.1)
