@@ -1,5 +1,3 @@
-#This is a python code for calculating Credit Score.
-#This python script can be run using streamlit in the form of website.
 import streamlit as st
 
 def get_input(prompt, min_val, max_val):
@@ -20,7 +18,7 @@ def calculate_credit_score():
         .reportview-container .main .block-container {
             font-family: "Times New Roman", Times, serif;
         }
-        h1 {
+        h1, h2 {
             text-align: center;
         }
     </style>
@@ -36,18 +34,20 @@ def calculate_credit_score():
     types_of_credit = get_input("Number of types of credit (e.g., 1-5): ", 1, 5)
     new_credit = get_input("Number of new credits opened recently (e.g., 0-10): ", 0, 10)
 
-    # Calculate score
-    score = 0
-    score += payment_history * 0.35
-    score += (100 - credit_utilization) * 0.30  # Lower utilization is better
-    score += (length_of_credit_history / 10) * 15  # Assuming 10+ years is best
-    score += types_of_credit * 2  # Assuming 5 types is best
-    score -= new_credit * 2  # Assuming 0 new credit is best
+    # Display the "Enter" button
+    if st.button('Enter'):
+        # Calculate score
+        score = 0
+        score += payment_history * 0.35
+        score += (100 - credit_utilization) * 0.30  # Lower utilization is better
+        score += (length_of_credit_history / 10) * 15  # Assuming 10+ years is best
+        score += types_of_credit * 2  # Assuming 5 types is best
+        score -= new_credit * 2  # Assuming 0 new credit is best
 
-    # Ensure score boundaries
-    score = max(300, min(900, score * 10))
+        # Ensure score boundaries
+        score = max(300, min(900, score * 10))
 
-    st.success(f"Your estimated Credit score is: {score}")
+        st.markdown(f"<h2 style='text-align: center; font-family: Times New Roman, Times, serif;'>Your estimated Credit score is: {score}</h2>", unsafe_allow_html=True)
 
 if __name__ == "__main__":
     calculate_credit_score()
