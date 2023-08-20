@@ -65,9 +65,7 @@ def calculate_credit_score():
         # Get credit score category
         category_html = get_credit_score_category(score)
         st.markdown(category_html, unsafe_allow_html=True)
-    
-
-# Dropdown for credit score improvement tips
+        # Dropdown for credit score improvement tips
 if st.button("How to improve your credit score"):
     st.markdown("""
     <style>
@@ -106,6 +104,8 @@ if st.button("How to improve your credit score"):
     **8. Seek Professional Help:** 
     If you're overwhelmed with debt, consider seeking help from a credit counseling agency. They can provide strategies and solutions to improve your financial situation.
     """, unsafe_allow_html=True)
+
+
 
 
 if __name__ == "__main__":
