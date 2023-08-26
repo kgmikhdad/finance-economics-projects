@@ -1,3 +1,6 @@
 streamlit
 ta
 pandas_datareader
+streamlit 
+yfinance 
+ta
