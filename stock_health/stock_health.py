@@ -1,26 +1,29 @@
-import yfinance as yf
+# app.py
+import pandas_datareader as web
 import streamlit as st
 import ta
+import datetime
 
 def fetch_data(ticker_symbol):
-    df = yf.download(ticker_symbol, period="1y")
+    # Set the end date to today and the start date to one year ago
+    end = datetime.datetime.now()
+    start = end - datetime.timedelta(days=365)
     
-    ticker = yf.Ticker(ticker_symbol)
-    info = ticker.info
-
+    # Fetch data
+    df = web.DataReader(ticker_symbol, 'yahoo', start, end)
+    
+    # Fundamental indicators
     fundamentals = {
         'Open': df['Open'].iloc[-1],
         'High': df['High'].iloc[-1],
         'Low': df['Low'].iloc[-1],
         'Close': df['Close'].iloc[-1],
         'Volume': df['Volume'].iloc[-1],
-        'Dividends': df['Dividends'].iloc[-1],
-        'Market Cap': info.get('marketCap', 'N/A'),
-        'Dividend Yield': info.get('dividendYield', 'N/A'),
-        'Forward PE': info.get('forwardPE', 'N/A'),
-        'Trailing PE': info.get('trailingPE', 'N/A')
+        'Adj Close': df['Adj Close'].iloc[-1],
+        # Add other available indicators...
     }
 
+    # Technical indicators using the `ta` library
     df['RSI'] = ta.momentum.RSIIndicator(df['Close']).rsi()
     df['MACD'] = ta.trend.MACD(df['Close']).macd()
     df['BB_High'] = ta.volatility.BollingerBands(df['Close']).bollinger_hband()
@@ -59,3 +62,5 @@ if st.button('Fetch Data'):
     st.write('## Technical Indicators')
     st.write(technicals)
 
+# For running the app, in the terminal use:
+# streamlit run app.py
