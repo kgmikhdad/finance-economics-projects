@@ -12,22 +12,47 @@ def get_stock_data(ticker):
 
 # Compute technical indicators
 def compute_technical_indicators(data):
-    # ... [Same as previous code for technical indicators] ...
+    # Moving Averages
+    data['MA50'] = data['Close'].rolling(50).mean()
+    data['MA200'] = data['Close'].rolling(200).mean()
+    
+    # RSI
+    delta = data['Close'].diff(1)
+    gain = (delta.where(delta > 0, 0)).fillna(0)
+    loss = (-delta.where(delta < 0, 0)).fillna(0)
+    avg_gain = gain.rolling(14).mean()
+    avg_loss = loss.rolling(14).mean()
+    rs = avg_gain / avg_loss
+    data['RSI'] = 100 - (100 / (1 + rs))
+    
+    # MACD
+    data['MACD'] = data['Close'].ewm(span=12, adjust=False).mean() - data['Close'].ewm(span=26, adjust=False).mean()
+    data['MACD_signal'] = data['MACD'].ewm(span=9, adjust=False).mean()
+    
+    # Bollinger Bands
+    data['BB_upper'] = data['Close'].rolling(20).mean() + 2*data['Close'].rolling(20).std()
+    data['BB_lower'] = data['Close'].rolling(20).mean() - 2*data['Close'].rolling(20).std()
+    
+    # Stochastic Oscillator
+    high14 = data['High'].rolling(14).max()
+    low14 = data['Low'].rolling(14).min()
+    data['%K'] = (data['Close'] - low14) / (high14 - low14) * 100
+    data['%D'] = data['%K'].rolling(3).mean()
+    
+    return data
 
 # Recommendation based on indicators
 def get_recommendation(fundamentals, technicals):
-    # Basic logic for recommendation
-    # This is a very rudimentary recommendation system. In a real-world scenario, more sophisticated algorithms would be used.
     buy_signals = 0
     sell_signals = 0
 
     # Fundamental checks
-    if fundamentals["P/E"] < 20:  # P/E ratio less than 20 is generally considered good
+    if fundamentals["P/E"] < 20:
         buy_signals += 1
     else:
         sell_signals += 1
 
-    if fundamentals["P/B"] < 1:  # P/B ratio less than 1 might indicate the stock is undervalued
+    if fundamentals["P/B"] < 1:
         buy_signals += 1
     else:
         sell_signals += 1
