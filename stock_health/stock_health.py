@@ -1,17 +1,13 @@
-# app.py
 import yfinance as yf
 import streamlit as st
 import ta
 
 def fetch_data(ticker_symbol):
-    # Fetch data
     df = yf.download(ticker_symbol, period="1y")
     
-    # Fetch additional info for the stock
     ticker = yf.Ticker(ticker_symbol)
     info = ticker.info
 
-    # Fundamental indicators
     fundamentals = {
         'Open': df['Open'].iloc[-1],
         'High': df['High'].iloc[-1],
@@ -25,7 +21,6 @@ def fetch_data(ticker_symbol):
         'Trailing PE': info.get('trailingPE', 'N/A')
     }
 
-    # Technical indicators using the `ta` library
     df['RSI'] = ta.momentum.RSIIndicator(df['Close']).rsi()
     df['MACD'] = ta.trend.MACD(df['Close']).macd()
     df['BB_High'] = ta.volatility.BollingerBands(df['Close']).bollinger_hband()
@@ -64,5 +59,3 @@ if st.button('Fetch Data'):
     st.write('## Technical Indicators')
     st.write(technicals)
 
-# For running the app, in the terminal use:
-# streamlit run app.py
