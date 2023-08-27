@@ -2,8 +2,8 @@ import streamlit as st
 
 def tradingview_widget():
     html_code = """
-    <div class="tradingview-widget-container">
-      <div id="tradingview_da31d"></div>
+    <div class="tradingview-widget-container" style="width: 100%; height: 100%;">
+      <div id="tradingview_da31d" style="width: 100%; height: 100%;"></div>
       <div class="tradingview-widget-copyright">
         <a href="https://in.tradingview.com/" rel="noopener nofollow" target="_blank">
           <span class="blue-text">Track all markets on TradingView</span>
@@ -28,7 +28,7 @@ def tradingview_widget():
       </script>
     </div>
     """
-    st.components.v1.html(html_code, height=1500)
+    st.components.v1.html(html_code, height=800, width=1200)
 
 st.title("TradingView Widget in Streamlit")
 tradingview_widget()
