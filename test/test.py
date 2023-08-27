@@ -28,7 +28,7 @@ def tradingview_widget(stock_symbol):
       </script>
     </div>
     """
-    st.components.v1.html(html_code, height=2000, width=1000)
+    st.components.v1.html(html_code, height=10000, width=1000)
 
 st.title("TradingView Widget in Streamlit")
 
