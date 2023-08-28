@@ -25,7 +25,7 @@ def main():
 
     # User input
     interest_rate = st.slider("Interest Rate (%)", 0.0, 20.0, 5.0, 0.1)
-    amount = st.slider("Amount (₹)", 100.0, 10000000.0, 1000.0, 50.0)
+    amount = st.number_input("Amount (₹)", min_value=100.0, max_value=10000000.0, value=1000.0, step=50.0)
     duration = st.slider("Duration (years)", 1, 40, 1)
 
     # Calculate ROI
