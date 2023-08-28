@@ -7,6 +7,11 @@ def display_stock_indicators(stock_name):
     stock = yf.Ticker(stock_name)
     hist_data = stock.history(period='1y')
     
+    # Check if data was fetched successfully
+    if hist_data.empty:
+        st.write(f"No data available for {stock_name}. Please enter a valid stock ticker.")
+        return
+    
     # Fundamental Indicators
     stock_info = stock.info
     fundamental_data = {
@@ -27,18 +32,19 @@ def display_stock_indicators(stock_name):
         st.write(f'{indicator}: {value}')
     
     # Technical Indicators
+    # Moving Average (MA) for the last 50 days
+    hist_data['MA50'] = hist_data['Close'].rolling(window=50).mean()
     # ... [rest of the technical indicators code remains unchanged]
+
+    # Check if technical indicators are computed
+    if 'MA50' not in hist_data.columns:
+        st.write("Error computing technical indicators. Please try again.")
+        return
 
     # Display the technical indicators
     st.subheader(f'Technical Indicators for {stock_name}')
     st.write(f'Moving Average (MA): {hist_data["MA50"].iloc[-1]}')
-    st.write(f'Exponential Moving Average (EMA): {hist_data["EMA50"].iloc[-1]}')
-    st.write(f'Moving Average Convergence Divergence (MACD): {hist_data["MACD"].iloc[-1]}')
-    st.write(f'Relative Strength Index (RSI): {hist_data["RSI"].iloc[-1]}')
-    st.write(f'Bollinger Bands: {hist_data["Bollinger High"].iloc[-1]} (High), {hist_data["Bollinger Low"].iloc[-1]} (Low)')
-    st.write(f'Stochastic Oscillator: {hist_data["Stochastic Oscillator"].iloc[-1]}')
-    st.write(f'Average True Range (ATR): {hist_data["ATR"].iloc[-1]}')
-    st.write(f'Parabolic SAR (Stop and Reverse): {hist_data["Parabolic SAR"].iloc[-1]}')
+    # ... [rest of the code to display technical indicators]
 
 # Streamlit UI
 st.title('Stock Indicators App')
