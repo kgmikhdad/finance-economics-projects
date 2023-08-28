@@ -34,17 +34,38 @@ def display_stock_indicators(stock_name):
     # Technical Indicators
     # Moving Average (MA) for the last 50 days
     hist_data['MA50'] = hist_data['Close'].rolling(window=50).mean()
-    # ... [rest of the technical indicators code remains unchanged]
-
-    # Check if technical indicators are computed
-    if 'MA50' not in hist_data.columns:
-        st.write("Error computing technical indicators. Please try again.")
-        return
+    # Exponential Moving Average (EMA) for the last 50 days
+    hist_data['EMA50'] = hist_data['Close'].ewm(span=50, adjust=False).mean()
+    # MACD
+    macd = ta.trend.MACD(hist_data['Close'])
+    hist_data['MACD'] = macd.macd()
+    # RSI
+    rsi = ta.momentum.RSIIndicator(hist_data['Close'])
+    hist_data['RSI'] = rsi.rsi()
+    # Bollinger Bands
+    bollinger = ta.volatility.BollingerBands(hist_data['Close'])
+    hist_data['Bollinger High'] = bollinger.bollinger_hband()
+    hist_data['Bollinger Low'] = bollinger.bollinger_lband()
+    # Stochastic Oscillator
+    stochastic = ta.momentum.StochasticOscillator(hist_data['High'], hist_data['Low'], hist_data['Close'])
+    hist_data['Stochastic Oscillator'] = stochastic.stoch()
+    # Average True Range (ATR)
+    atr = ta.volatility.AverageTrueRange(hist_data['High'], hist_data['Low'], hist_data['Close'])
+    hist_data['ATR'] = atr.average_true_range()
+    # Parabolic SAR (Stop and Reverse)
+    parabolic_sar = ta.trend.PSARIndicator(hist_data['High'], hist_data['Low'], hist_data['Close'])
+    hist_data['Parabolic SAR'] = parabolic_sar.psar()
 
     # Display the technical indicators
     st.subheader(f'Technical Indicators for {stock_name}')
     st.write(f'Moving Average (MA): {hist_data["MA50"].iloc[-1]}')
-    # ... [rest of the code to display technical indicators]
+    st.write(f'Exponential Moving Average (EMA): {hist_data["EMA50"].iloc[-1]}')
+    st.write(f'Moving Average Convergence Divergence (MACD): {hist_data["MACD"].iloc[-1]}')
+    st.write(f'Relative Strength Index (RSI): {hist_data["RSI"].iloc[-1]}')
+    st.write(f'Bollinger Bands: {hist_data["Bollinger High"].iloc[-1]} (High), {hist_data["Bollinger Low"].iloc[-1]} (Low)')
+    st.write(f'Stochastic Oscillator: {hist_data["Stochastic Oscillator"].iloc[-1]}')
+    st.write(f'Average True Range (ATR): {hist_data["ATR"].iloc[-1]}')
+    st.write(f'Parabolic SAR (Stop and Reverse): {hist_data["Parabolic SAR"].iloc[-1]}')
 
 # Streamlit UI
 st.title('Stock Indicators App')
