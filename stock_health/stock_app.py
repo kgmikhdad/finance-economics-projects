@@ -1,9 +1,7 @@
-# Import necessary libraries
 import streamlit as st
 import yfinance as yf
 import ta
 
-# Function to display stock indicators
 def display_stock_indicators(stock_name):
     # Fetch data
     stock = yf.Ticker(stock_name)
