@@ -73,6 +73,34 @@ def main():
         years = list(range(1, duration + 1))
         roi_values = [adjust_for_inflation(calculate_roi(interest_rate, amount, year, frequency, tax_rate)[1], inflation_rate, year) for year in years]
         st.line_chart({"ROI After Tax": roi_values}, use_container_width=True)
+# ... [rest of your code]
+
+    # Tips section at the bottom
+    with st.beta_expander("Tips and Additional Information"):
+        st.write("""
+        **1. Investment Type Specifics**: Different investment types might have unique parameters. For instance:
+        - **Stocks**: Consider dividend yield, capital gains, and brokerage fees.
+        - **Bonds**: Think about coupon payments, bond maturity, and bond rating.
+        - **Real Estate**: Account for rental income, property taxes, maintenance costs, and appreciation rate.
+
+        **2. Additional Costs**: Remember to factor in other costs associated with the investment, such as brokerage fees, transaction fees, and management or advisory fees.
+
+        **3. Risk Assessment**: Different financial instruments come with varying levels of risk. Generally, stocks are riskier than bonds.
+
+        **4. Currency Options**: If you're investing in foreign assets, consider the impact of currency fluctuations on your ROI.
+
+        **5. Tax Implications**: Tax laws can be complex. It's always a good idea to consult with a financial advisor or tax professional to understand the tax implications of your investments.
+
+        **6. Regular Contributions**: If you're making regular contributions to your investment, this can significantly impact your ROI. Consider using a compound interest calculator for more accurate projections.
+
+        **7. Historical Data**: Past performance is not indicative of future results, but understanding historical trends can provide valuable context.
+
+        **8. Diversification**: Don't put all your eggs in one basket. Diversifying your investments can help mitigate risk.
+
+        **9. Stay Informed**: The financial world is dynamic. Regularly review and adjust your investment strategy based on current economic conditions and personal financial goals.
+
+        **10. Long-Term Perspective**: Investing is a marathon, not a sprint. Stay patient and focus on long-term growth.
+        """)
 
 if __name__ == "__main__":
     main()
