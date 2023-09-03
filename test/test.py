@@ -18,9 +18,9 @@ def calculate_roi(interest_rate, amount, duration, frequency, tax_rate=0):
         total_amount = amount * ((1 + (interest_rate / 100)) ** duration)
 
     # Deducting tax annually from the profit
-    annual_profit = total_amount - amount
-    annual_profit_after_tax = annual_profit * (1 - tax_rate / 100)
-    total_amount_after_tax = amount + annual_profit_after_tax
+    profit = total_amount - amount
+    profit_after_tax = profit - (profit * (tax_rate / 100))
+    total_amount_after_tax = amount + profit_after_tax
 
     return total_amount, total_amount_after_tax
 
