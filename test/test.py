@@ -76,7 +76,7 @@ def main():
 # ... [rest of your code]
 
     # Tips section at the bottom
-    with st.beta_expander("Tips and Additional Information"):
+    with st.expander("Tips and Additional Information"):
         st.write("""
         **1. Investment Type Specifics**: Different investment types might have unique parameters. For instance:
         - **Stocks**: Consider dividend yield, capital gains, and brokerage fees.
