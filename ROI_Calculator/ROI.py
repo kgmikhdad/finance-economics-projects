@@ -19,7 +19,6 @@ def calculate_roi(interest_rate, amount, duration, frequency):
     return total_amount
 
 def main():
-def main():
     def custom_css():
         st.markdown("""
             <style>
@@ -37,6 +36,7 @@ def main():
 
     custom_css()
     st.title("ROI Calculator")
+
     financial_instruments = [
         "Bonds", "Certificates of Deposit (CDs)", "Stocks", "Fixed Annuities", 
         "Money Market Instruments", "Treasury Bills", "Commercial Paper", 
