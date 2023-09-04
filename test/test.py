@@ -39,9 +39,31 @@ def display_stock_indicators(stock_name, start_date, end_date):
     for indicator, value in fundamental_data.items():
         st.write(f'{indicator}: {value}')
     
-    # Technical Indicators (same as your original code)
-    # ...
+    hist_data['MA50'] = hist_data['Close'].rolling(window=50).mean()
+    hist_data['EMA50'] = hist_data['Close'].ewm(span=50, adjust=False).mean()
+    macd = ta.trend.MACD(hist_data['Close'])
+    hist_data['MACD'] = macd.macd()
+    rsi = ta.momentum.RSIIndicator(hist_data['Close'])
+    hist_data['RSI'] = rsi.rsi()
+    bollinger = ta.volatility.BollingerBands(hist_data['Close'])
+    hist_data['Bollinger High'] = bollinger.bollinger_hband()
+    hist_data['Bollinger Low'] = bollinger.bollinger_lband()
+    stochastic = ta.momentum.StochasticOscillator(hist_data['High'], hist_data['Low'], hist_data['Close'])
+    hist_data['Stochastic Oscillator'] = stochastic.stoch()
+    atr = ta.volatility.AverageTrueRange(hist_data['High'], hist_data['Low'], hist_data['Close'])
+    hist_data['ATR'] = atr.average_true_range()
+    parabolic_sar = ta.trend.PSARIndicator(hist_data['High'], hist_data['Low'], hist_data['Close'])
+    hist_data['Parabolic SAR'] = parabolic_sar.psar()
 
+    st.subheader(f'Technical Indicators for {stock_name}')
+    st.write(f'Moving Average (MA): {hist_data["MA50"].iloc[-1]}')
+    st.write(f'Exponential Moving Average (EMA): {hist_data["EMA50"].iloc[-1]}')
+    st.write(f'Moving Average Convergence Divergence (MACD): {hist_data["MACD"].iloc[-1]}')
+    st.write(f'Relative Strength Index (RSI): {hist_data["RSI"].iloc[-1]}')
+    st.write(f'Bollinger Bands: {hist_data["Bollinger High"].iloc[-1]} (High), {hist_data["Bollinger Low"].iloc[-1]} (Low)')
+    st.write(f'Stochastic Oscillator: {hist_data["Stochastic Oscillator"].iloc[-1]}')
+    st.write(f'Average True Range (ATR): {hist_data["ATR"].iloc[-1]}')
+    st.write(f'Parabolic SAR (Stop and Reverse): {hist_data["Parabolic SAR"].iloc[-1]}')
     # Feature 1: Interactive Plots
     fig = go.Figure()
     fig.add_trace(go.Scatter(x=hist_data.index, y=hist_data['Close'], mode='lines', name='Close Price'))
