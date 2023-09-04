@@ -1,7 +1,6 @@
 import streamlit as st
 
 def calculate_roi(interest_rate, amount, duration, frequency, tax_rate=0):
-    # Initial ROI calculation without tax
     if frequency == "Per Day":
         total_days = duration * 365
         total_amount = amount * ((1 + (interest_rate / (100 * 365))) ** total_days)
@@ -17,7 +16,6 @@ def calculate_roi(interest_rate, amount, duration, frequency, tax_rate=0):
     else:  # Per Year
         total_amount = amount * ((1 + (interest_rate / 100)) ** duration)
 
-    # Deducting tax annually from the profit
     profit = total_amount - amount
     profit_after_tax = profit - (profit * (tax_rate / 100))
     total_amount_after_tax = amount + profit_after_tax
@@ -69,13 +67,10 @@ def main():
         st.write(f"Investing in {selected_instrument}, the total amount after {duration} years with interest calculated {frequency.lower()} (adjusted for inflation) will be: ₹{roi_adjusted:.2f}")
         st.write(f"After deducting the tax, the total amount will be: ₹{roi_after_tax_adjusted:.2f}")
         
-        # Graphical representation of ROI over time
         years = list(range(1, duration + 1))
         roi_values = [adjust_for_inflation(calculate_roi(interest_rate, amount, year, frequency, tax_rate)[1], inflation_rate, year) for year in years]
         st.line_chart({"ROI After Tax": roi_values}, use_container_width=True)
-# ... [rest of your code]
 
-    # Tips section at the bottom
     with st.expander("Tips and Additional Information"):
         st.write("""
         **1. Investment Type Specifics**: Different investment types might have unique parameters. For instance:
