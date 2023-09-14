@@ -1,13 +1,16 @@
 import streamlit as st
 import yfinance as yf
 import ta
+import pandas as pd
+import matplotlib.pyplot as plt
 
 def display_stock_indicators(stock_name):
-    stock = yf.Ticker(stock_name)
-    hist_data = stock.history(period='1y')
+    with st.spinner(f"Fetching data for {stock_name}..."):
+        stock = yf.Ticker(stock_name)
+        hist_data = stock.history(period='1y')
     
     if hist_data.empty:
-        st.write(f"No data available for {stock_name}. Please enter a valid stock ticker.")
+        st.error(f"No data available for {stock_name}. Please enter a valid stock ticker.")
         return
     
     stock_info = stock.info
@@ -27,6 +30,7 @@ def display_stock_indicators(stock_name):
     for indicator, value in fundamental_data.items():
         st.write(f'{indicator}: {value}')
     
+    # Technical Indicators
     hist_data['MA50'] = hist_data['Close'].rolling(window=50).mean()
     hist_data['EMA50'] = hist_data['Close'].ewm(span=50, adjust=False).mean()
     macd = ta.trend.MACD(hist_data['Close'])
