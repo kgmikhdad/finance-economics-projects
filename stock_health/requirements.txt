@@ -1,4 +1,4 @@
-streamlit==0.88.0
-yfinance==0.1.63
-ta==0.7.0
+streamlit
+yfinance
+ta
 
