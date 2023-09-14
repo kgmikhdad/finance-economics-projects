@@ -1,8 +1,6 @@
 import streamlit as st
 import yfinance as yf
 import ta
-import pandas as pd
-import matplotlib.pyplot as plt
 
 def display_stock_indicators(stock_name):
     with st.spinner(f"Fetching data for {stock_name}..."):
