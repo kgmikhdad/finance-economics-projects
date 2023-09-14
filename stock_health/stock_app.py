@@ -1,68 +1,65 @@
 import streamlit as st
 import yfinance as yf
-import ta
 
-def fetch_stock_data(stock_name):
-    stock = yf.Ticker(stock_name)
-    return stock.history(period='1y'), stock.info
+def normalize(value, min_value, max_value):
+    value = max(min(value, max_value), min_value)  # Clamping the value
+    return (value - min_value) / (max_value - min_value)
 
-def display_fundamental_data(stock_info):
-    fundamental_data = {
-        'Earnings Per Share (EPS)': stock_info.get('trailingEps', 'N/A'),
-        'Price-to-Earnings Ratio (P/E)': stock_info.get('trailingPE', 'N/A'),
-        'Price-to-Book Ratio (P/B)': stock_info.get('priceToBook', 'N/A'),
-        'Dividend Yield': stock_info.get('dividendYield', 'N/A'),
-        'Debt-to-Equity Ratio': stock_info.get('debtToEquity', 'N/A'),
-        'Return on Equity (ROE)': stock_info.get('returnOnEquity', 'N/A'),
-        'Revenue and Revenue Growth': stock_info.get('revenueGrowth', 'N/A'),
-        'Net Profit Margin': stock_info.get('profitMargins', 'N/A'),
-        'Free Cash Flow': stock_info.get('freeCashflow', 'N/A')
-    }
-    
-    st.subheader('Fundamental Indicators')
-    for indicator, value in fundamental_data.items():
-        st.write(f'{indicator}: {value}')
+def value_investor_index(ticker):
+    stock = yf.Ticker(ticker)
+    history = stock.history(period="5y")
+    info = stock.info
+    current_price = history["Close"].iloc[-1]
+    moving_average = history["Close"].tail(50).mean()
+    moving_average_norm = normalize(moving_average, history["Close"].min(), history["Close"].max())
+    volume = history["Volume"].tail(50).mean()
+    volume_norm = normalize(volume, history["Volume"].min(), history["Volume"].max())
+    support = history["Low"].min()
+    resistance = history["High"].max()
+    support_resistance_diff = (current_price - support) / (resistance - support)
+    pe_ratio = info.get("trailingPE", current_price)
+    pe_norm = normalize(pe_ratio, 5, 50)
+    pb_ratio = info.get("priceToBook", 1)
+    pb_norm = normalize(pb_ratio, 0, 10)
+    dividend_yield = info.get("dividendYield", 0)
+    dy_norm = normalize(dividend_yield, 0, 0.1)
+    debt_to_equity = info.get("debtToEquity", 0)
+    debt_norm = normalize(debt_to_equity, 0, 2)
+    roe = info.get("returnOnEquity", 0)
+    roe_norm = normalize(roe, 0, 0.3)
+    eps_growth = info.get("earningsQuarterlyGrowth", 0)
+    eps_norm = normalize(eps_growth, -1, 1)
+    free_cash_flow = info.get("freeCashflow", 0) / info.get("marketCap", 1)
+    fcf_norm = normalize(free_cash_flow, 0, 0.2)
+    book_value = info.get("bookValue", 1)
+    bv_norm = normalize(book_value, 0, 100)
+    current_ratio = info.get("currentRatio", 1)
+    cr_norm = normalize(current_ratio, 0, 5)
+    index = (
+        0.04 * moving_average_norm +
+        0.02 * volume_norm +
+        0.01 * support_resistance_diff +
+        0.20 * pe_norm +
+        0.15 * pb_norm +
+        0.15 * dy_norm +
+        0.12 * debt_norm +
+        0.12 * roe_norm +
+        0.10 * eps_norm +
+        0.08 * fcf_norm +
+        0.05 * bv_norm +
+        0.05 * cr_norm
+    )
+    return index * 100
+# Streamlit UI
+st.title("Value Investor Index Calculator")
 
-def display_technical_indicators(hist_data):
-    hist_data['MA50'] = hist_data['Close'].rolling(window=50).mean()
-    hist_data['EMA50'] = hist_data['Close'].ewm(span=50, adjust=False).mean()
-    macd = ta.trend.MACD(hist_data['Close'])
-    hist_data['MACD'] = macd.macd()
-    rsi = ta.momentum.RSIIndicator(hist_data['Close'])
-    hist_data['RSI'] = rsi.rsi()
-    bollinger = ta.volatility.BollingerBands(hist_data['Close'])
-    hist_data['Bollinger High'] = bollinger.bollinger_hband()
-    hist_data['Bollinger Low'] = bollinger.bollinger_lband()
-    stochastic = ta.momentum.StochasticOscillator(hist_data['High'], hist_data['Low'], hist_data['Close'])
-    hist_data['Stochastic Oscillator'] = stochastic.stoch()
-    atr = ta.volatility.AverageTrueRange(hist_data['High'], hist_data['Low'], hist_data['Close'])
-    hist_data['ATR'] = atr.average_true_range()
-    parabolic_sar = ta.trend.PSARIndicator(hist_data['High'], hist_data['Low'], hist_data['Close'])
-    hist_data['Parabolic SAR'] = parabolic_sar.psar()
+# Input for stock ticker
+ticker = st.text_input("Enter the stock ticker:")
 
-    st.subheader('Technical Indicators')
-    st.write(f'Moving Average (MA): {hist_data["MA50"].iloc[-1]}')
-    st.write(f'Exponential Moving Average (EMA): {hist_data["EMA50"].iloc[-1]}')
-    st.write(f'MACD: {hist_data["MACD"].iloc[-1]}')
-    st.write(f'RSI: {hist_data["RSI"].iloc[-1]}')
-    st.write(f'Bollinger Bands: {hist_data["Bollinger High"].iloc[-1]} (High), {hist_data["Bollinger Low"].iloc[-1]} (Low)')
-    st.write(f'Stochastic Oscillator: {hist_data["Stochastic Oscillator"].iloc[-1]}')
-    st.write(f'ATR: {hist_data["ATR"].iloc[-1]}')
-    st.write(f'Parabolic SAR: {hist_data["Parabolic SAR"].iloc[-1]}')
-
-def main():
-    st.title('Stock Indicators App')
-    stock_name = st.text_input('Enter the stock name (e.g. AAPL for Apple): ')
-
-    if stock_name:
-        hist_data, stock_info = fetch_stock_data(stock_name)
-        
-        if hist_data.empty:
-            st.error(f"No data available for {stock_name}. Please enter a valid stock ticker.")
-            return
-        
-        display_fundamental_data(stock_info)
-        display_technical_indicators(hist_data)
-
-if __name__ == "__main__":
-    main()
+# Button to calculate the index
+if st.button("Calculate Index"):
+    if ticker:
+        index_value = value_investor_index(ticker)
+        st.write(f"The Value Investor Index for {ticker} is: {index_value:.2f}")
+    else:
+        st.write("Please enter a stock ticker.")
