@@ -6,6 +6,7 @@ def normalize(value, min_value, max_value):
     return (value - min_value) / (max_value - min_value)
 
 def day_trader_index(ticker):
+    # ... [Your day_trader_index function implementation]
     stock = yf.Ticker(ticker)
     history = stock.history(period="5d", interval="1m")
     current_price = history["Close"].iloc[-1]
@@ -27,6 +28,7 @@ def day_trader_index(ticker):
     return index * 100
 
 def position_trader_index(ticker):
+    # ... [Your position_trader_index function implementation]
     stock = yf.Ticker(ticker)
     history = stock.history(period="2y")
     info = stock.info
@@ -61,6 +63,7 @@ def position_trader_index(ticker):
     return index * 100
 
 def swing_trader_index(ticker):
+    # ... [Your swing_trader_index function implementation]
     stock = yf.Ticker(ticker)
     history = stock.history(period="1y")
     info = stock.info
@@ -86,6 +89,7 @@ def swing_trader_index(ticker):
     return index * 100
 
 def buy_and_hold_investor_index(ticker):
+    # ... [Your buy_and_hold_investor_index function implementation]
     stock = yf.Ticker(ticker)
     history = stock.history(period="5y")
     info = stock.info
@@ -119,6 +123,7 @@ def buy_and_hold_investor_index(ticker):
     return index * 100
 
 def value_investor_index_normalized(ticker):
+    # ... [Your value_investor_index_normalized function implementation]
     stock = yf.Ticker(ticker)
     history = stock.history(period="5y")
     info = stock.info
@@ -175,14 +180,14 @@ index_functions = {
 # Streamlit UI
 st.title("Stock Index Calculator")
 
+# Input for stock ticker
+ticker = st.text_input("Enter the stock ticker:")
+
 # Dropdown for selecting the index
 index_choice = st.selectbox(
     "Select the index you want to calculate:",
     list(index_functions.keys())
 )
-
-# Input for stock ticker
-ticker = st.text_input("Enter the stock ticker:")
 
 # Button to calculate the index
 if st.button("Calculate Index"):
@@ -191,5 +196,3 @@ if st.button("Calculate Index"):
         st.write(f"The {index_choice} for {ticker} is: {index_value:.2f}")
     else:
         st.write("Please enter a stock ticker.")
-
-
