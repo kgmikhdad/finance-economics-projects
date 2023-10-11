@@ -1,63 +1,52 @@
 import streamlit as st
 import yfinance as yf
 import matplotlib.pyplot as plt
+import pandas as pd
 
-# Define the tickers for Gold and the Nifty indices
-tickers = {
-    'Gold': 'GLD',
-    'Nifty 50': '^NSEI',
-    'Nifty Auto': '^CNXAUTO',
-    'Nifty Metal': '^CNXMETAL',
-    'Nifty Realty': '^CNXREALTY'
-}
+st.title('Portfolio Simulation from 2019-11-01 to 2021-01-01')
 
-# Fetch data from 1/11/2019 to 1/1/2021
+gold_ticker = 'GLD'
+nifty_pharma_ticker = '^CRSLDX'
+nifty_fmcg_ticker = '^CNXFMCG'
+nifty_bank_ticker = '^NSEBANK'
+nifty_it_ticker = '^CNXIT'
+
 start_date = '2019-11-01'
 end_date = '2021-01-01'
 
-data = {name: yf.download(ticker, start=start_date, end=end_date)['Close'].pct_change().dropna() + 1 
-        for name, ticker in tickers.items()}
+gold_data = yf.download(gold_ticker, start=start_date, end=end_date)
+nifty_pharma_data = yf.download(nifty_pharma_ticker, start=start_date, end=end_date)
+nifty_fmcg_data = yf.download(nifty_fmcg_ticker, start=start_date, end=end_date)
+nifty_bank_data = yf.download(nifty_bank_ticker, start=start_date, end=end_date)
+nifty_it_data = yf.download(nifty_it_ticker, start=start_date, end=end_date)
 
-# Calculate cumulative returns
-cumulative_returns = {name: returns.cumprod() for name, returns in data.items()}
+gold_returns = gold_data["Close"].pct_change().dropna() + 1
+nifty_pharma_returns = nifty_pharma_data["Close"].pct_change().dropna() + 1
+nifty_fmcg_returns = nifty_fmcg_data["Close"].pct_change().dropna() + 1
+nifty_bank_returns = nifty_bank_data["Close"].pct_change().dropna() + 1
+nifty_it_returns = nifty_it_data["Close"].pct_change().dropna() + 1
 
-def plot_portfolio(nifty50_weight, nifty_auto_weight, nifty_metal_weight, nifty_realty_weight):
-    # Ensure the total weight is <= 100
-    total_weight = nifty50_weight + nifty_auto_weight + nifty_metal_weight + nifty_realty_weight
-    if total_weight > 100:
-        st.write(f'Total weight exceeds 100%. Please adjust the weights.')
-        return
+gold_cumulative_returns = gold_returns.cumprod()
+nifty_pharma_cumulative_returns = nifty_pharma_returns.cumprod()
+nifty_fmcg_cumulative_returns = nifty_fmcg_returns.cumprod()
+nifty_bank_cumulative_returns = nifty_bank_returns.cumprod()
+nifty_it_cumulative_returns = nifty_it_returns.cumprod()
 
-    # Calculate the weight for Gold
-    gold_weight = 100 - total_weight
+gold_weight = st.sidebar.slider('gold weight', 0.0, 1.0, 0.2)
+nifty_pharma_weight = st.sidebar.slider('nifty pharma weight', 0.0, 1.0, 0.2)
+nifty_fmcg_weight = st.sidebar.slider('nifty fmcg weight', 0.0, 1.0, 0.2)
+nifty_bank_weight = st.sidebar.slider('nifty bank weight', 0.0, 1.0, 0.2)
+nifty_it_weight = 1 - gold_weight - nifty_pharma_weight - nifty_fmcg_weight - nifty_bank_weight
 
-    # Calculate portfolio returns
-    portfolio_returns = (
-        gold_weight / 100 * cumulative_returns['Gold'] +
-        nifty50_weight / 100 * cumulative_returns['Nifty 50'] +
-        nifty_auto_weight / 100 * cumulative_returns['Nifty Auto'] +
-        nifty_metal_weight / 100 * cumulative_returns['Nifty Metal'] +
-        nifty_realty_weight / 100 * cumulative_returns['Nifty Realty']
-    )
+portfolio_returns = gold_weight * gold_cumulative_returns + nifty_pharma_weight * nifty_pharma_cumulative_returns + nifty_fmcg_weight * nifty_fmcg_cumulative_returns + nifty_bank_weight * nifty_bank_cumulative_returns + nifty_it_weight * nifty_it_cumulative_returns
 
-    # Plotting
-    plt.figure(figsize=(10, 6))
-    plt.plot(portfolio_returns.index, portfolio_returns, label='Portfolio')
-    for name, returns in cumulative_returns.items():
-        plt.plot(returns.index, returns, label=name, linestyle='dashed')
-    
-    plt.legend()
-    plt.title('Portfolio Simulation from 1/11/2019 to 1/1/2021')
-    plt.xlabel('Date')
-    plt.ylabel('Cumulative Returns')
-    plt.grid(True)
-    plt.show()
-
-# Set up Streamlit sliders for asset weights
-nifty50_weight = st.slider('Nifty 50 Weight', 0, 100, 20)
-nifty_auto_weight = st.slider('Nifty Auto Weight', 0, 100, 20)
-nifty_metal_weight = st.slider('Nifty Metal Weight', 0, 100, 20)
-nifty_realty_weight = st.slider('Nifty Realty Weight', 0, 100, 20)
-
-# Call the function when the values change
-plot_portfolio(nifty50_weight, nifty_auto_weight, nifty_metal_weight, nifty_realty_weight)
+fig, ax = plt.subplots(figsize=(10, 6))
+ax.plot(portfolio_returns.index, portfolio_returns, label=f'Portfolio')
+ax.plot(gold_cumulative_returns.index, gold_cumulative_returns, label='Gold', linestyle='dashed')
+ax.plot(nifty_pharma_cumulative_returns.index, nifty_pharma_cumulative_returns, label='Nifty Pharma', linestyle='dashed')
+ax.plot(nifty_fmcg_cumulative_returns.index, nifty_fmcg_cumulative_returns, label='Nifty FMCG', linestyle='dashed')
+ax.plot(nifty_bank_cumulative_returns.index, nifty_bank_cumulative_returns, label='Nifty Bank', linestyle='dashed')
+ax.plot(nifty_it_cumulative_returns.index, nifty_it_cumulative_returns, label='Nifty IT', linestyle='dashed')
+ax.legend()
+ax.grid(True)
+st.pyplot(fig)
